@@ -1,5 +1,3 @@
-#  (c) goodprogrammer.ru
-#
 # Создаем юзеров
 class CreateUsers < ActiveRecord::Migration
   def change
