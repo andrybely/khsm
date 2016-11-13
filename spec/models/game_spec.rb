@@ -106,4 +106,29 @@ RSpec.describe Game, type: :model do
       expect(second_level_game_w_questions.previous_level).to eq(second_level_game_w_questions.current_level - 1)
     end
   end
+
+  #группа тестов на проверку ответов
+  context 'answers' do
+
+    it 'right answer' do
+      expect(game_w_questions.answer_current_question!('d')).to eq(true)
+    end
+
+    it 'wrong answer' do
+      expect(game_w_questions.answer_current_question!('a')).to eq(false)
+    end
+
+    it 'last answer' do
+      game_w_questions.current_level = '14'
+      expect(game_w_questions.answer_current_question!('d')).to eq(true)
+      expect(game_w_questions.prize).to eq(1000000)
+      expect(game_w_questions.finished?).to eq(true)
+    end
+
+    it 'late answer' do
+      game_w_questions.created_at = 1.hour.ago
+      expect(game_w_questions.answer_current_question!('d')).to eq(false)
+    end
+
+  end
 end
