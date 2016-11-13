@@ -94,24 +94,40 @@ RSpec.describe Game, type: :model do
       expect(game_w_questions.status).to eq(:money)
     end
 
+  end
+
+  context '.questions && level' do
+    # перед каждым тестом "завершаем игру"
+    before(:each) do
+      game_w_questions.finished_at = Time.now
+      expect(game_w_questions.finished?).to be_truthy
+    end
+
     it 'current_game_question' do
-      expect(game_w_questions.current_game_question.level).to eq(game_w_questions.current_level)
+      expect(game_w_questions.current_game_question).to eq(game_w_questions.game_questions[0])
     end
 
     it 'previous_game_question' do
-      expect(second_level_game_w_questions.previous_game_question.level).to eq(second_level_game_w_questions.previous_level)
+      expect(second_level_game_w_questions.previous_game_question).to eq(second_level_game_w_questions.game_questions[1])
     end
 
     it 'previous_level' do
       expect(second_level_game_w_questions.previous_level).to eq(second_level_game_w_questions.current_level - 1)
     end
+
   end
 
   #группа тестов на проверку ответов
   context 'answers' do
+    # перед каждым тестом "завершаем игру"
+    before(:each) do
+      game_w_questions.finished_at = Time.now
+      expect(game_w_questions.finished?).to be_truthy
+    end
 
     it 'right answer' do
-      expect(game_w_questions.answer_current_question!('d')).to eq(true)
+      correct_answer = game_w_questions.current_game_question.correct_answer_key
+      expect(game_w_questions.answer_current_question!("#{correct_answer}")).to eq(true)
     end
 
     it 'wrong answer' do
@@ -120,7 +136,8 @@ RSpec.describe Game, type: :model do
 
     it 'last answer' do
       game_w_questions.current_level = '14'
-      expect(game_w_questions.answer_current_question!('d')).to eq(true)
+      correct_answer = game_w_questions.current_game_question.correct_answer_key
+      expect(game_w_questions.answer_current_question!("#{correct_answer}")).to eq(true)
       expect(game_w_questions.prize).to eq(1000000)
       expect(game_w_questions.finished?).to eq(true)
     end
