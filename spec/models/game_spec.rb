@@ -8,6 +8,8 @@ RSpec.describe Game, type: :model do
   #игра с прописанными игровыми вопросами
   let(:game_w_questions) {FactoryGirl.create(:game_with_questions, user: user) }
 
+  let(:second_level_game_w_questions) {FactoryGirl.create(:game_with_questions, user: user, current_level: '2') }
+
   #Группа тестов на работу фабрики создания новых игр
   context 'Game Factory' do
     it 'Game.create_game_for_user! new correct game' do
@@ -90,6 +92,18 @@ RSpec.describe Game, type: :model do
 
     it ':money' do
       expect(game_w_questions.status).to eq(:money)
+    end
+
+    it 'current_game_question' do
+      expect(game_w_questions.current_game_question.level).to eq(game_w_questions.current_level)
+    end
+
+    it 'previous_game_question' do
+      expect(second_level_game_w_questions.previous_game_question.level).to eq(second_level_game_w_questions.previous_level)
+    end
+
+    it 'previous_level' do
+      expect(second_level_game_w_questions.previous_level).to eq(second_level_game_w_questions.current_level - 1)
     end
   end
 end
