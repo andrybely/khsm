@@ -17,6 +17,19 @@ class GameQuestion < ActiveRecord::Base
   # в полях a,b,c,d прячутся индексы ответов из объекта :game
   validates :a, :b, :c, :d, inclusion: {in: 1..4}
 
+  # Автоматическая сериализация поля в базу (мы юзаем как обычный хэш,
+  # а рельсы в базе хранят как строчку)
+  # см. ссылки в материалах урока
+  serialize :help_hash, Hash
+
+  # help_hash имеет такой формат:
+  # {
+  #   fifty_fifty: ['a', 'b'], # При использовании подсказски остались варианты a и b
+  #   audience_help: {'a' => 42, 'c' => 37 ...}, # Распределение голосов по вариантам a, b, c, d
+  #   friend_call: 'Василий Петрович считает, что правильный ответ A'
+  # }
+  #
+
   # ----- Основные методы для доступа к данным в шаблонах и контроллерах -----------
 
   # Возвращает хэш, отсортированный по ключам:
@@ -43,6 +56,16 @@ class GameQuestion < ActiveRecord::Base
   # текст правильного ответа
   def correct_answer
     variants[correct_answer_key]
+  end
+
+  def add_audience_help
+    self.help_hash[:audience_help] = {
+      'a' => rand(100),
+      'b' => rand(100),
+      'c' => rand(100),
+      'd' => rand(100)
+    }
+    save
   end
 
 end

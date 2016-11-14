@@ -114,6 +114,25 @@ class Game < ActiveRecord::Base
     end
   end
 
+  # todo: Пока реализована поддержка только :audience_help
+  #
+  # Возвращает true, если подсказка применилась успешно, false если подсказка уже использована
+  def use_help(help_type)
+    case help_type
+      when :audience_help
+        #проверка - если в этой игре еще не реализована подсказка
+        unless audience_help_used
+          #ActiveRecord метод toggle! переключает булевое поле сразу в базе
+          toggle!(:audience_help_used)
+          current_game_question.add_audience_help
+          return true
+        end
+    end
+
+    false
+  end
+
+
   # Записываем юзеру игровую сумму на счет и завершаем игру,
   def take_money!
     return if time_out! || finished? # из законченной или неначатой игры нечего брать
