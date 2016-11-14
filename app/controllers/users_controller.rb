@@ -1,4 +1,3 @@
-# (c) goodprogrammer.ru
 #
 # Контроллер, отображающий список и профиль юзера
 class UsersController < ApplicationController
