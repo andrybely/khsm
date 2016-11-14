@@ -136,5 +136,18 @@ RSpec.describe GamesController, type: :controller do
       expect(response).to redirect_to(game_path(game_w_questions))
       expect(flash[:alert]).to be
     end
+
+    #тест на неправильный ответ игрока
+    it 'wrong answer' do
+      put :answer, id: game_w_questions.id, letter: !game_w_questions.current_game_question.correct_answer_key
+
+      game = assigns(:game)
+
+      #проверка состояния игры
+      expect(game.finished?).to be_truthy #игра окончена?
+      expect(response).to redirect_to (user_path(user)) #проверка перенаправления
+      expect(flash.empty?).to be_falsey # неверный ответ, flash должен быть заполнен
+
+    end
   end
 end
