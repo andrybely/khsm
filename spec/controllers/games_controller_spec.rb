@@ -20,7 +20,7 @@ RSpec.describe GamesController, type: :controller do
     end
 
     it  'kick from #answer' do
-      put :answer, id: game_w_questions.id
+      put :answer, id: game_w_questions.id, letter: 'a'
 
       expect(response.status).not_to eq 200
       expect(response).to redirect_to(new_user_session_path)
@@ -36,7 +36,7 @@ RSpec.describe GamesController, type: :controller do
     end
 
     it  'kick from #create' do
-      post :create, id: game_w_questions.id
+      post :create
 
       expect(response.status).not_to eq 200
       expect(response).to redirect_to(new_user_session_path)
@@ -139,7 +139,7 @@ RSpec.describe GamesController, type: :controller do
 
     #тест на неправильный ответ игрока
     it 'wrong answer' do
-      put :answer, id: game_w_questions.id, letter: !game_w_questions.current_game_question.correct_answer_key
+      put :answer, id: game_w_questions.id, letter: 'a'
 
       game = assigns(:game)
 

@@ -97,11 +97,6 @@ RSpec.describe Game, type: :model do
   end
 
   context '.questions && level' do
-    # перед каждым тестом "завершаем игру"
-    before(:each) do
-      game_w_questions.finished_at = Time.now
-      expect(game_w_questions.finished?).to be_truthy
-    end
 
     it 'current_game_question' do
       expect(game_w_questions.current_game_question).to eq(game_w_questions.game_questions[0])
@@ -119,11 +114,6 @@ RSpec.describe Game, type: :model do
 
   #группа тестов на проверку ответов
   context 'answers' do
-    # перед каждым тестом "завершаем игру"
-    before(:each) do
-      game_w_questions.finished_at = Time.now
-      expect(game_w_questions.finished?).to be_truthy
-    end
 
     it 'right answer' do
       correct_answer = game_w_questions.current_game_question.correct_answer_key
