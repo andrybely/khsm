@@ -139,7 +139,11 @@ RSpec.describe GamesController, type: :controller do
 
     #тест на неправильный ответ игрока
     it 'wrong answer' do
-      put :answer, id: game_w_questions.id, letter: 'a'
+      answers = ['a', 'b', 'c', 'd']
+      answers.delete(game_w_questions.current_game_question.correct_answer_key)
+      answer = answers[rand(answers.size)]
+
+      put :answer, id: game_w_questions.id, letter: answer
 
       game = assigns(:game)
 
