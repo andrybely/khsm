@@ -6,7 +6,7 @@ RSpec.feature 'USER create game', type: :feature do
   let!(:questions) do
     (0..14).to_a.map do |i|
       FactoryGirl.create(
-                     :questions, level: i,
+                     :question, level: i,
                      text: "Когда была куликовская битва номер #{i}?",
                      answer1: '1380', answer2: '1381', answer3: '1382', answer4: '1383'
       )
