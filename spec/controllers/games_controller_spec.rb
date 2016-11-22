@@ -4,14 +4,14 @@ require 'support/my_spec_helper'
 RSpec.describe GamesController, type: :controller do
 
   # обычный пользователь
-  let(:user) {FactoryGirl.create(:user)}
+  let(:user) { FactoryGirl.create(:user) }
   # админ
-  let(:admin) {FactoryGirl.create(:user, is_admin: true)}
+  let(:admin) { FactoryGirl.create(:user, is_admin: true) }
   # игра с прописанными игровыми вопросами
-  let(:game_w_questions) {FactoryGirl.create(:game_with_questions, user: user)}
+  let(:game_w_questions) { FactoryGirl.create(:game_with_questions, user: user) }
 
   context 'Anon' do
-    it  'kick from #show' do
+    it 'kick from #show' do
       get :show, id: game_w_questions.id
 
       expect(response.status).not_to eq 200
@@ -19,7 +19,7 @@ RSpec.describe GamesController, type: :controller do
       expect(flash[:alert]).to be
     end
 
-    it  'kick from #answer' do
+    it 'kick from #answer' do
       put :answer, id: game_w_questions.id, letter: 'a'
 
       expect(response.status).not_to eq 200
@@ -27,7 +27,7 @@ RSpec.describe GamesController, type: :controller do
       expect(flash[:alert]).to be
     end
 
-    it  'kick from #take_money' do
+    it 'kick from #take_money' do
       put :take_money, id: game_w_questions.id
 
       expect(response.status).not_to eq 200
@@ -35,7 +35,7 @@ RSpec.describe GamesController, type: :controller do
       expect(flash[:alert]).to be
     end
 
-    it  'kick from #create' do
+    it 'kick from #create' do
       post :create
 
       expect(response.status).not_to eq 200
@@ -52,20 +52,20 @@ RSpec.describe GamesController, type: :controller do
       sign_in user
     end
 
-  it 'creates game' do
-    generate_questions(60)
+    it 'creates game' do
+      generate_questions(60)
 
-    post :create
+      post :create
 
-    game = assigns(:game)
+      game = assigns(:game)
 
-    #проверка состояния игры
-    expect(game.finished?).to be_falsey
-    expect(game.user).to eq(user)
+      #проверка состояния игры
+      expect(game.finished?).to be_falsey
+      expect(game.user).to eq(user)
 
-    expect(response).to redirect_to game_path(game)
-    expect(flash[:notice]).to be
-  end
+      expect(response).to redirect_to game_path(game)
+      expect(flash[:notice]).to be
+    end
 
     #юзер видит свою игру
     it '#show game' do

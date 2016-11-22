@@ -11,11 +11,11 @@ FactoryGirl.define do
 
     factory :game_with_questions do
       after(:build) { |game|
-      15.times do |i|
-        q = create(:question, level: i)
-        create(:game_question, game: game, question: q)
-      end
-        }
+        15.times do |i|
+          q = create(:question, level: i)
+          create(:game_question, game: game, question: q)
+        end
+      }
     end
   end
 end

@@ -3,12 +3,12 @@ require 'support/my_spec_helper'
 
 RSpec.describe Game, type: :model do
   #пользователь для создания игр
-  let(:user) {FactoryGirl.create(:user) }
+  let(:user) { FactoryGirl.create(:user) }
 
   #игра с прописанными игровыми вопросами
-  let(:game_w_questions) {FactoryGirl.create(:game_with_questions, user: user) }
+  let(:game_w_questions) { FactoryGirl.create(:game_with_questions, user: user) }
 
-  let(:second_level_game_w_questions) {FactoryGirl.create(:game_with_questions, user: user, current_level: '2') }
+  let(:second_level_game_w_questions) { FactoryGirl.create(:game_with_questions, user: user, current_level: '2') }
 
   #Группа тестов на работу фабрики создания новых игр
   context 'Game Factory' do
@@ -16,11 +16,11 @@ RSpec.describe Game, type: :model do
       generate_questions(60)
 
       game = nil
-        expect {
+      expect {
         game = Game.create_game_for_user!(user)
-        }.to change(Game, :count).by(1).and(
-          change(GameQuestion, :count).by(15)
-        )
+      }.to change(Game, :count).by(1).and(
+        change(GameQuestion, :count).by(15)
+      )
 
       #проверка статуса и полей
       expect(game.user).to eq(user)
