@@ -23,3 +23,6 @@ https://billionareapp.herokuapp.com/
 После разворачивания приложения в нем доступны только тестовые вопросы. Игровые вопросы можно добавить создав пользователя с правами администратора через Руби консоль (пример: User.create(name: 'Admin', email: 'admin@admin.com', password: 123456, password_confirmation: 123456, is_admin: true).
 
 Вопросы добавляются в файле формата example.txt, при добавлении вопросов обязательно указывается уровень вопроса (от 0 до 14 включительно).
+
+== Copyright
+«Хороший программист» goodprogrammer.ru && Andry Belyaev
